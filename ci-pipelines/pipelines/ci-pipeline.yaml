@@ -1,0 +1,43 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: ci-pipeline
+spec:
+  resources:
+    - name: source-repo
+      type: git
+
+  tasks:
+    - name: unit-test-task
+      taskRef:
+        name: unit-test-task
+      resources:
+        inputs:
+          - name: source-repo
+            resource: source-repo
+
+    - name: lint-task
+      taskRef:
+        name: lint-task
+      resources:
+        inputs:
+          - name: source-repo
+            resource: source-repo
+
+    - name: acceptance-task
+      runAfter: ['lint-task', 'unit-test-task']
+      taskRef:
+        name: acceptance-task
+      resources:
+        inputs:
+          - name: source-repo
+            resource: source-repo
+
+    - name: e2e-task
+      runAfter: ['lint-task', 'unit-test-task']
+      taskRef:
+        name: e2e-task
+      resources:
+        inputs:
+          - name: source-repo
+            resource: source-repo

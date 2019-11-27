@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name:  acceptance-task
+  name:  e2e-task
 spec:
   inputs:
     resources:
@@ -16,12 +16,13 @@ spec:
         - make
       args:
         - build
-    - name: acceptance-test
+
+    - name: e2e-test
       image: golang
       workingDir: /workspace/source-repo
       command:
         - make
       args:
-        - acceptance
+        - e2e
       securityContext:
         privileged: true

@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  name: wiki-pipelinerun-1
+spec:
+  pipelineRef:
+    name: ci-pipeline
+  resources:
+    - name: source-repo
+      resourceRef:
+        name: wiki-src
